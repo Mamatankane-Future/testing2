@@ -8,11 +8,13 @@ jobs:
     name: build and deploy lambda
     runs-on: ubuntu-latest
     steps:
-      - name: Packaging
+      - name: Checkout code
         uses: actions/checkout@v1
+      
+      - name: Package code
         run: zip deploy.zip main.py
 
-      - name: deploying
+      - name: deploy code
         uses: appleboy/lambda-action@master
         with:
           aws_access_key_id: ${{secrets.AWS_ACCESS_KEY_ID}}
