@@ -1,0 +1,23 @@
+name: Testing deployment
+on: 
+  push:
+    branches:
+      - main
+jobs:
+  deploy:
+    name: build and deploy lambda
+    runs-on: ubuntu-latest
+    steps:
+      - name: Packaging
+        uses: actions/checkout@v1
+        run: zip deploy.zip main.py
+
+      - name: deploying
+        uses: appleboy/lambda-action@master
+        with:
+          aws_access_key_id: ${{secrets.AWS_ACCESS_KEY_ID}}
+          aws_secret_access_key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+          aws_region: ${{secrets.region}}
+          function_name: ${{secrets.funtion_name}}
+          zip_file: deploy.zip
+
